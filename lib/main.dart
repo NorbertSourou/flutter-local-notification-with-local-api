@@ -15,24 +15,21 @@ const simplePeriodicTask = "simplePeriodicTask";
 void _showNotificationWithDefaultSound(v, flip) async {
   // Show a notification after every 15 minute with the first
   // appearance happening a minute after invoking the method
-  var androidPlatformChannelSpecifics =  AndroidNotificationDetails(
+  var androidPlatformChannelSpecifics = AndroidNotificationDetails(
     'channel id',
     'channel NAME',
     'CHANNEL DESCRIPTION',
     importance: Importance.max,
     priority: Priority.high,
   );
-  var iOSPlatformChannelSpecifics =  IOSNotificationDetails();
+  var iOSPlatformChannelSpecifics = IOSNotificationDetails();
 
   // initialise channel platform for both Android and iOS device.
-  var platformChannelSpecifics =  NotificationDetails(
+  var platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics);
   await flip.show(
-      0,
-      'Ryc Gestion',
-      'Nouvelle(s) requete(s)',
-      platformChannelSpecifics,
+      0, 'Ryc Gestion', 'Nouvelle(s) requete(s)', platformChannelSpecifics,
       payload: 'Default_Sound');
 }
 
@@ -67,6 +64,7 @@ Future<void> main() async {
   );
 
   runApp(MaterialApp(
+    title: 'Ryc Gestion',
     home: MyApp(),
   ));
 }
@@ -87,25 +85,16 @@ void callbackDispatcher() {
     var settings = InitializationSettings(android: android, iOS: IOS);
     flip.initialize(settings);
 
-//    var response = await http.get('http://rycnegoces.com/api/index.php');
-
     var response = await http.get('http://rycnegoces.com/api/index.php');
 
-    print("here================");
-    print(response);
     if (response.statusCode == 200) {
       var jresponse = json.decode(response.body);
-      if (jresponse['notif'] == false) {
+      if (jresponse['notif'] == true) {
         _showNotificationWithDefaultSound(jresponse['nombre'], flip);
       } else {
         print("no message");
       }
     }
-
-    //print("aaaaa $jresponse");
-
-    //  _showNotificationWithDefaultSound(flip);
-
     return Future.value(true);
   });
 }
@@ -199,80 +188,87 @@ class _MyAppState extends State<MyApp> {
                             Expanded(
                               child: Column(
                                 children: <Widget>[
-                                  Container(
-                                    height: 190,
-                                    color: Colors.red,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        ListTile(
-                                          onTap: () {
-                                            _modalBottomSheetMenu(context, 1);
-                                          },
-                                          title: Text(
-                                            reab == null
-                                                ? "0"
-                                                : reab.toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline4
-                                                .copyWith(
-                                                  color: Colors.white,
-                                                  fontSize: 24.0,
-                                                ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _modalBottomSheetMenu1(context);
+                                    },
+                                    child: Container(
+                                      height: 190,
+                                      color: Colors.red,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          ListTile(
+                                            title: Text(
+                                              reab == null
+                                                  ? "0"
+                                                  : reab.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline4
+                                                  .copyWith(
+                                                    color: Colors.white,
+                                                    fontSize: 24.0,
+                                                  ),
+                                            ),
+                                            trailing: Icon(
+                                              FontAwesomeIcons.creditCard,
+                                              color: Colors.white,
+                                            ),
                                           ),
-                                          trailing: Icon(
-                                            FontAwesomeIcons.creditCard,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 16.0),
-                                          child: Text(
-                                            'Réabonnement',
-                                            style: whiteText,
-                                          ),
-                                        )
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child: Text(
+                                              'Réabonnement',
+                                              style: whiteText,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(height: 10.0),
-                                  Container(
-                                    height: 120,
-                                    color: Colors.grey.shade500,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        ListTile(
-                                          title: Text(
-                                            comp == null
-                                                ? "0"
-                                                : comp.toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline4
-                                                .copyWith(
-                                                  color: Colors.white,
-                                                  fontSize: 24.0,
-                                                ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _modalBottomSheetMenu3(context);
+                                    },
+                                    child: Container(
+                                      height: 120,
+                                      color: Colors.grey.shade500,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          ListTile(
+                                            title: Text(
+                                              comp == null
+                                                  ? "0"
+                                                  : comp.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline4
+                                                  .copyWith(
+                                                    color: Colors.white,
+                                                    fontSize: 24.0,
+                                                  ),
+                                            ),
+                                            trailing: Icon(
+                                              FontAwesomeIcons.magic,
+                                              color: Colors.white,
+                                            ),
                                           ),
-                                          trailing: Icon(
-                                            FontAwesomeIcons.magic,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 16.0),
-                                          child: Text(
-                                            'Complément',
-                                            style: whiteText,
-                                          ),
-                                        )
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child: Text(
+                                              'Complément',
+                                              style: whiteText,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -282,75 +278,87 @@ class _MyAppState extends State<MyApp> {
                             Expanded(
                               child: Column(
                                 children: <Widget>[
-                                  Container(
-                                    height: 120,
-                                    color: Colors.green,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        ListTile(
-                                          title: Text(
-                                            mig == null ? "0" : mig.toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline4
-                                                .copyWith(
-                                                  color: Colors.white,
-                                                  fontSize: 24.0,
-                                                ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _modalBottomSheetMenu2(context);
+                                    },
+                                    child: Container(
+                                      height: 120,
+                                      color: Colors.green,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          ListTile(
+                                            title: Text(
+                                              mig == null
+                                                  ? "0"
+                                                  : mig.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline4
+                                                  .copyWith(
+                                                    color: Colors.white,
+                                                    fontSize: 24.0,
+                                                  ),
+                                            ),
+                                            trailing: Icon(
+                                              FontAwesomeIcons.upload,
+                                              color: Colors.white,
+                                            ),
                                           ),
-                                          trailing: Icon(
-                                            FontAwesomeIcons.upload,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 16.0),
-                                          child: Text(
-                                            'Migrations',
-                                            style: whiteText,
-                                          ),
-                                        )
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child: Text(
+                                              'Migrations',
+                                              style: whiteText,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(height: 10.0),
-                                  Container(
-                                    height: 190,
-                                    color: Colors.blue,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        ListTile(
-                                          title: Text(
-                                            recru == null
-                                                ? "0"
-                                                : recru.toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline4
-                                                .copyWith(
-                                                  fontSize: 24.0,
-                                                  color: Colors.white,
-                                                ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _modalBottomSheetMenu4(context);
+                                    },
+                                    child: Container(
+                                      height: 190,
+                                      color: Colors.blue,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          ListTile(
+                                            title: Text(
+                                              recru == null
+                                                  ? "0"
+                                                  : recru.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline4
+                                                  .copyWith(
+                                                    fontSize: 24.0,
+                                                    color: Colors.white,
+                                                  ),
+                                            ),
+                                            trailing: Icon(
+                                              FontAwesomeIcons.hdd,
+                                              color: Colors.white,
+                                            ),
                                           ),
-                                          trailing: Icon(
-                                            FontAwesomeIcons.hdd,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 16.0),
-                                          child: Text(
-                                            'Recrutements',
-                                            style: whiteText,
-                                          ),
-                                        )
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child: Text(
+                                              'Recrutements',
+                                              style: whiteText,
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -408,7 +416,88 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void _modalBottomSheetMenu(context, int size) {
+  void _modalBottomSheetMenu1(context) {
+    @override
+    Widget buildRow(int i) {
+      return Container(
+        width: double.maxFinite,
+        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+        child: Card(
+          color: Colors.blue,
+          elevation: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Montant"),
+                    Text(reabTab[i]["montant"]),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(reabTab[i]["formule"]),
+                    FittedBox(
+                      child: Text(
+                        "ACCESS",
+                      ),
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Distributeur"),
+                    Text(reabTab[i]["distributeur"]),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      reabTab[i]["datecreat"],
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
+    showCupertinoModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.grey.shade800,
+          body: ListView.builder(
+            itemCount: reabTab.length,
+            itemBuilder: (BuildContext context, int i) {
+              return buildRow(i);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _modalBottomSheetMenu2(context) {
     @override
     Widget buildRow(int i) {
       return Container(
@@ -425,7 +514,7 @@ class _MyAppState extends State<MyApp> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Montant"),
+                      Text(migTab[i]["montant"]),
                       Text("6000"),
                     ],
                   ),
@@ -437,9 +526,9 @@ class _MyAppState extends State<MyApp> {
                     children: [
                       Text("Formule"),
                       FittedBox(
-                        child: Text(
-                          "ACCESS",
-                        ),
+                        child: migTab[i]["formule"] == null
+                            ? Text("Null")
+                            : Text(migTab[i]["formule"]),
                         fit: BoxFit.fitWidth,
                       ),
                     ],
@@ -451,7 +540,7 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Distributeur"),
-                      Text("Berny Service"),
+                      Text(migTab[i]["distributeur"]),
                     ],
                   ),
                 ),
@@ -461,7 +550,7 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        "30/01/2021,09:12",
+                        migTab[i]["datecreat"],
                         style: TextStyle(color: Colors.grey),
                       ),
                     ],
@@ -472,17 +561,169 @@ class _MyAppState extends State<MyApp> {
       );
     }
 
-     showCupertinoModalBottomSheet(
+    showCupertinoModalBottomSheet(
       context: context,
       builder: (context) => SafeArea(
         child: Scaffold(
           backgroundColor: Colors.grey.shade800,
           body: ListView.builder(
-            itemCount: size == 1
-                ? reabTab.length
-                : size == 2
-                    ? migTab.length
-                    : size == 3 ? compTab.length : recruTab.length,
+            itemCount: migTab.length,
+            itemBuilder: (BuildContext context, int i) {
+              return buildRow(i);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _modalBottomSheetMenu3(context) {
+    @override
+    Widget buildRow(int i) {
+      return Container(
+        width: double.maxFinite,
+        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+        child: Card(
+            color: Colors.blue,
+            elevation: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(compTab[i]["montant"]),
+                      Text("6000"),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Formule"),
+                      FittedBox(
+                        child: Text(compTab[i]["formule"]),
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Distributeur"),
+                      Text(compTab[i]["distributeur"]),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        compTab[i]["datecreat"],
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            )),
+      );
+    }
+
+    showCupertinoModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.grey.shade800,
+          body: ListView.builder(
+            itemCount: compTab.length,
+            itemBuilder: (BuildContext context, int i) {
+              return buildRow(i);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _modalBottomSheetMenu4(context) {
+    @override
+    Widget buildRow(int i) {
+      return Container(
+        width: double.maxFinite,
+        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+        child: Card(
+            color: Colors.blue,
+            elevation: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(recruTab[i]["montant"]),
+                      Text("6000"),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Formule"),
+                      FittedBox(
+                        child: Text(recruTab[i]["formule"]),
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Distributeur"),
+                      Text(recruTab[i]["distributeur"]),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        recruTab[i]["datecreat"],
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            )),
+      );
+    }
+
+    showCupertinoModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.grey.shade800,
+          body: ListView.builder(
+            itemCount: recruTab.length,
             itemBuilder: (BuildContext context, int i) {
               return buildRow(i);
             },
