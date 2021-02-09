@@ -42,7 +42,7 @@ Future<void> main() async {
 
       // If enabled it will post a notification whenever
       // the task is running. Handy for debugging tasks
-      isInDebugMode: true);
+      isInDebugMode: false);
   // Periodic task registration
   await Workmanager.registerPeriodicTask(
     "5",
@@ -434,7 +434,9 @@ class _MyAppState extends State<MyApp> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Montant"),
-                    Text(reabTab[i]["montant"]),
+                    reabTab[i]["montant"] == null
+                        ? Text("Null")
+                        : Text(reabTab[i]["montant"])
                   ],
                 ),
               ),
@@ -443,11 +445,11 @@ class _MyAppState extends State<MyApp> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(reabTab[i]["formule"]),
+                    Text("Formule"),
                     FittedBox(
-                      child: Text(
-                        "ACCESS",
-                      ),
+                      child: reabTab[i]["formule"] == null
+                          ? Text("Null")
+                          : Text(reabTab[i]["formule"]),
                       fit: BoxFit.fitWidth,
                     ),
                   ],
@@ -459,7 +461,9 @@ class _MyAppState extends State<MyApp> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Distributeur"),
-                    Text(reabTab[i]["distributeur"]),
+                    reabTab[i]["distributeur"] == null
+                        ? Text("Null")
+                        : Text(reabTab[i]["distributeur"]),
                   ],
                 ),
               ),
@@ -468,10 +472,15 @@ class _MyAppState extends State<MyApp> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      reabTab[i]["datecreat"],
-                      style: TextStyle(color: Colors.grey),
-                    ),
+                    reabTab[i]["datecreat"] == null
+                        ? Text(
+                            "Null",
+                            style: TextStyle(color: Colors.grey),
+                          )
+                        : Text(
+                            reabTab[i]["datecreat"],
+                            style: TextStyle(color: Colors.grey),
+                          ),
                   ],
                 ),
               )
@@ -514,8 +523,10 @@ class _MyAppState extends State<MyApp> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(migTab[i]["montant"]),
-                      Text("6000"),
+                      Text("Montant"),
+                      migTab[i]["montant"] == null
+                          ? Text("Null")
+                          : Text(migTab[i]["montant"]),
                     ],
                   ),
                 ),
@@ -540,7 +551,9 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Distributeur"),
-                      Text(migTab[i]["distributeur"]),
+                      migTab[i]["distributeur"] == null
+                          ? Text("Null")
+                          : Text(migTab[i]["distributeur"]),
                     ],
                   ),
                 ),
@@ -549,10 +562,12 @@ class _MyAppState extends State<MyApp> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        migTab[i]["datecreat"],
-                        style: TextStyle(color: Colors.grey),
-                      ),
+                      migTab[i]["datecreat"] == null
+                          ? Text("Null")
+                          : Text(
+                              migTab[i]["datecreat"],
+                              style: TextStyle(color: Colors.grey),
+                            ),
                     ],
                   ),
                 )
@@ -594,8 +609,10 @@ class _MyAppState extends State<MyApp> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(compTab[i]["montant"]),
-                      Text("6000"),
+                      Text("Montant"),
+                      compTab[i]["montant"] == null
+                          ? Text("Null")
+                          : Text(compTab[i]["montant"]),
                     ],
                   ),
                 ),
@@ -606,7 +623,9 @@ class _MyAppState extends State<MyApp> {
                     children: [
                       Text("Formule"),
                       FittedBox(
-                        child: Text(compTab[i]["formule"]),
+                        child: compTab[i]["formule"] == null
+                            ? Text("Null")
+                            : Text(compTab[i]["formule"]),
                         fit: BoxFit.fitWidth,
                       ),
                     ],
@@ -618,7 +637,9 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Distributeur"),
-                      Text(compTab[i]["distributeur"]),
+                      compTab[i]["distributeur"] == null
+                          ? Text("Null")
+                          : Text(compTab[i]["distributeur"]),
                     ],
                   ),
                 ),
@@ -627,10 +648,15 @@ class _MyAppState extends State<MyApp> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        compTab[i]["datecreat"],
-                        style: TextStyle(color: Colors.grey),
-                      ),
+                      compTab[i]["datecreat"] == null
+                          ? Text(
+                              "Null",
+                              style: TextStyle(color: Colors.grey),
+                            )
+                          : Text(
+                              compTab[i]["datecreat"],
+                              style: TextStyle(color: Colors.grey),
+                            ),
                     ],
                   ),
                 )
@@ -658,6 +684,7 @@ class _MyAppState extends State<MyApp> {
   void _modalBottomSheetMenu4(context) {
     @override
     Widget buildRow(int i) {
+
       return Container(
         width: double.maxFinite,
         margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
@@ -672,8 +699,10 @@ class _MyAppState extends State<MyApp> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(recruTab[i]["montant"]),
-                      Text("6000"),
+                      Text("Montant"),
+                      recruTab[i]["montant"] == null
+                          ? Text("Null")
+                          : Text(recruTab[i]["montant"]),
                     ],
                   ),
                 ),
@@ -684,7 +713,9 @@ class _MyAppState extends State<MyApp> {
                     children: [
                       Text("Formule"),
                       FittedBox(
-                        child: Text(recruTab[i]["formule"]),
+                        child: recruTab[i]["formule"] == null
+                            ? Text("Null")
+                            : Text(recruTab[i]["formule"]),
                         fit: BoxFit.fitWidth,
                       ),
                     ],
@@ -696,7 +727,9 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Distributeur"),
-                      Text(recruTab[i]["distributeur"]),
+                      recruTab[i]["distributeur"] == null
+                          ? Text("Null")
+                          : Text(recruTab[i]["distributeur"]),
                     ],
                   ),
                 ),
@@ -705,10 +738,15 @@ class _MyAppState extends State<MyApp> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        recruTab[i]["datecreat"],
-                        style: TextStyle(color: Colors.grey),
-                      ),
+                      recruTab[i]["datecreat"] == null
+                          ? Text(
+                              "Null",
+                              style: TextStyle(color: Colors.grey),
+                            )
+                          : Text(
+                              recruTab[i]["datecreat"],
+                              style: TextStyle(color: Colors.grey),
+                            ),
                     ],
                   ),
                 )
