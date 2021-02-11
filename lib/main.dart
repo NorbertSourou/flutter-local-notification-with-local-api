@@ -107,6 +107,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   @override
   void initState() {
     // TODO: implement initState
@@ -139,6 +140,16 @@ class _MyAppState extends State<MyApp> {
           migTab = jsonResponse['migration'][1];
           compTab = jsonResponse['complement'][1];
           recruTab = jsonResponse['recrutement'][1];
+
+          // tableau
+          // var tableau = [];
+          List<String> tab = <String>[
+            jsonResponse["nombre"].toString(),
+            jsonResponse["réabonnement"][0].toString(),
+            jsonResponse["migration"][0].toString(),
+            jsonResponse["complement"][0].toString(),
+            jsonResponse["recrutement"][0].toString()
+          ];
 
           reab = jsonResponse["réabonnement"][0];
           mig = jsonResponse["migration"][0];
@@ -232,7 +243,12 @@ class _MyAppState extends State<MyApp> {
                                   const SizedBox(height: 10.0),
                                   GestureDetector(
                                     onTap: () {
-                                      _modalBottomSheetMenu3(context);
+                                      if (compTab.length <= 0 ||
+                                          compTab.length == null) {
+
+                                      } else {
+                                        _modalBottomSheetMenu3(context);
+                                      }
                                     },
                                     child: Container(
                                       height: 120,
@@ -356,7 +372,7 @@ class _MyAppState extends State<MyApp> {
                                               'Recrutements',
                                               style: whiteText,
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -436,7 +452,7 @@ class _MyAppState extends State<MyApp> {
                     Text("Montant"),
                     reabTab[i]["montant"] == null
                         ? Text("Null")
-                        : Text(reabTab[i]["montant"])
+                        : Text(reabTab[i]["montant"].toString())
                   ],
                 ),
               ),
@@ -449,7 +465,7 @@ class _MyAppState extends State<MyApp> {
                     FittedBox(
                       child: reabTab[i]["formule"] == null
                           ? Text("Null")
-                          : Text(reabTab[i]["formule"]),
+                          : Text(reabTab[i]["formule"].toString()),
                       fit: BoxFit.fitWidth,
                     ),
                   ],
@@ -463,7 +479,7 @@ class _MyAppState extends State<MyApp> {
                     Text("Distributeur"),
                     reabTab[i]["distributeur"] == null
                         ? Text("Null")
-                        : Text(reabTab[i]["distributeur"]),
+                        : Text(reabTab[i]["distributeur"].toString()),
                   ],
                 ),
               ),
@@ -478,7 +494,7 @@ class _MyAppState extends State<MyApp> {
                             style: TextStyle(color: Colors.grey),
                           )
                         : Text(
-                            reabTab[i]["datecreat"],
+                            reabTab[i]["datecreat"].toString(),
                             style: TextStyle(color: Colors.grey),
                           ),
                   ],
@@ -526,7 +542,7 @@ class _MyAppState extends State<MyApp> {
                       Text("Montant"),
                       migTab[i]["montant"] == null
                           ? Text("Null")
-                          : Text(migTab[i]["montant"]),
+                          : Text(migTab[i]["montant"].toString()),
                     ],
                   ),
                 ),
@@ -539,7 +555,7 @@ class _MyAppState extends State<MyApp> {
                       FittedBox(
                         child: migTab[i]["formule"] == null
                             ? Text("Null")
-                            : Text(migTab[i]["formule"]),
+                            : Text(migTab[i]["formule"].toString()),
                         fit: BoxFit.fitWidth,
                       ),
                     ],
@@ -553,7 +569,7 @@ class _MyAppState extends State<MyApp> {
                       Text("Distributeur"),
                       migTab[i]["distributeur"] == null
                           ? Text("Null")
-                          : Text(migTab[i]["distributeur"]),
+                          : Text(migTab[i]["distributeur"].toString()),
                     ],
                   ),
                 ),
@@ -565,7 +581,7 @@ class _MyAppState extends State<MyApp> {
                       migTab[i]["datecreat"] == null
                           ? Text("Null")
                           : Text(
-                              migTab[i]["datecreat"],
+                              migTab[i]["datecreat"].toString(),
                               style: TextStyle(color: Colors.grey),
                             ),
                     ],
@@ -612,7 +628,7 @@ class _MyAppState extends State<MyApp> {
                       Text("Montant"),
                       compTab[i]["montant"] == null
                           ? Text("Null")
-                          : Text(compTab[i]["montant"]),
+                          : Text(compTab[i]["montant"].toString()),
                     ],
                   ),
                 ),
@@ -625,7 +641,7 @@ class _MyAppState extends State<MyApp> {
                       FittedBox(
                         child: compTab[i]["formule"] == null
                             ? Text("Null")
-                            : Text(compTab[i]["formule"]),
+                            : Text(compTab[i]["formule"].toString()),
                         fit: BoxFit.fitWidth,
                       ),
                     ],
@@ -639,7 +655,7 @@ class _MyAppState extends State<MyApp> {
                       Text("Distributeur"),
                       compTab[i]["distributeur"] == null
                           ? Text("Null")
-                          : Text(compTab[i]["distributeur"]),
+                          : Text(compTab[i]["distributeur"].toString()),
                     ],
                   ),
                 ),
@@ -654,7 +670,7 @@ class _MyAppState extends State<MyApp> {
                               style: TextStyle(color: Colors.grey),
                             )
                           : Text(
-                              compTab[i]["datecreat"],
+                              compTab[i]["datecreat"].toString(),
                               style: TextStyle(color: Colors.grey),
                             ),
                     ],
@@ -684,7 +700,6 @@ class _MyAppState extends State<MyApp> {
   void _modalBottomSheetMenu4(context) {
     @override
     Widget buildRow(int i) {
-
       return Container(
         width: double.maxFinite,
         margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
@@ -702,7 +717,7 @@ class _MyAppState extends State<MyApp> {
                       Text("Montant"),
                       recruTab[i]["montant"] == null
                           ? Text("Null")
-                          : Text(recruTab[i]["montant"]),
+                          : Text(recruTab[i]["montant"].toString()),
                     ],
                   ),
                 ),
@@ -715,7 +730,7 @@ class _MyAppState extends State<MyApp> {
                       FittedBox(
                         child: recruTab[i]["formule"] == null
                             ? Text("Null")
-                            : Text(recruTab[i]["formule"]),
+                            : Text(recruTab[i]["formule"].toString()),
                         fit: BoxFit.fitWidth,
                       ),
                     ],
@@ -729,7 +744,7 @@ class _MyAppState extends State<MyApp> {
                       Text("Distributeur"),
                       recruTab[i]["distributeur"] == null
                           ? Text("Null")
-                          : Text(recruTab[i]["distributeur"]),
+                          : Text(recruTab[i]["distributeur"].toString()),
                     ],
                   ),
                 ),
@@ -744,7 +759,7 @@ class _MyAppState extends State<MyApp> {
                               style: TextStyle(color: Colors.grey),
                             )
                           : Text(
-                              recruTab[i]["datecreat"],
+                              recruTab[i]["datecreat"].toString(),
                               style: TextStyle(color: Colors.grey),
                             ),
                     ],
@@ -771,3 +786,5 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+
