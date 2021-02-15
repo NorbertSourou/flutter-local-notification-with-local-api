@@ -60,7 +60,7 @@ Future<void> main() async {
     // Android will automatically change
     // your frequency to 15 min
     // if you have configured a lower frequency.
-    frequency: Duration(minutes: 15),
+    frequency: Duration(minutes: 5),
   );
 
   runApp(MaterialApp(
