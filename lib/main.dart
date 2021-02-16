@@ -42,7 +42,7 @@ Future<void> main() async {
 
       // If enabled it will post a notification whenever
       // the task is running. Handy for debugging tasks
-      isInDebugMode: false);
+      isInDebugMode: true);
   // Periodic task registration
   await Workmanager.registerPeriodicTask(
     "5",
@@ -107,12 +107,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     search();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      search();
+    } else if (state == AppLifecycleState.inactive) {
+      // app is inactive
+    } else if (state == AppLifecycleState.paused) {
+      // user is about quit our app temporally
+    }
   }
 
   bool is_loading = false;
@@ -130,7 +140,7 @@ class _MyAppState extends State<MyApp> {
     //   is_loading = true;
     http.Response response =
         await http.get('http://rycnegoces.com/api/index.php');
-    var jsonResponse = null;
+    var jsonResponse;
     if (response.statusCode == 200) {
       jsonResponse = json.decode(response.body);
 
@@ -141,31 +151,21 @@ class _MyAppState extends State<MyApp> {
           compTab = jsonResponse['complement'][1];
           recruTab = jsonResponse['recrutement'][1];
 
-          // tableau
-          // var tableau = [];
-          List<String> tab = <String>[
-            jsonResponse["nombre"].toString(),
-            jsonResponse["réabonnement"][0].toString(),
-            jsonResponse["migration"][0].toString(),
-            jsonResponse["complement"][0].toString(),
-            jsonResponse["recrutement"][0].toString()
-          ];
-
           reab = jsonResponse["réabonnement"][0];
           mig = jsonResponse["migration"][0];
           comp = jsonResponse["complement"][0];
           recru = jsonResponse["recrutement"][0];
           request = jsonResponse["nombre"];
-          is_loading = false;
+          //  is_loading = false;
         });
       } else {
         setState(() {
-          is_loading = false;
+          //   is_loading = false;
         });
       }
     } else {
       setState(() {
-        is_loading = false;
+        //  is_loading = false;
       });
       print(response.body);
     }
@@ -184,207 +184,203 @@ class _MyAppState extends State<MyApp> {
           ),
           body: RefreshIndicator(
             onRefresh: search,
-            child: is_loading
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : SingleChildScrollView(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: <Widget>[
-                        _buildheader(),
-                        const SizedBox(height: 50.0),
-                        Row(
+            // child: is_loading
+            //     ? Center(
+            //         child: CircularProgressIndicator(),
+            //       )
+            //     :
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: <Widget>[
+                  _buildheader(),
+                  const SizedBox(height: 50.0),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Column(
                           children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  GestureDetector(
-                                    onTap: () {
-                                      _modalBottomSheetMenu1(context);
-                                    },
-                                    child: Container(
-                                      height: 190,
-                                      color: Colors.red,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          ListTile(
-                                            title: Text(
-                                              reab == null
-                                                  ? "0"
-                                                  : reab.toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline4
-                                                  .copyWith(
-                                                    color: Colors.white,
-                                                    fontSize: 24.0,
-                                                  ),
-                                            ),
-                                            trailing: Icon(
-                                              FontAwesomeIcons.creditCard,
+                            GestureDetector(
+                              onTap: () {
+                                if (reabTab.length == null) {
+                                } else {
+                                  _modalBottomSheetMenu1(context);
+                                }
+                              },
+                              child: Container(
+                                height: 190,
+                                color: Colors.red,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: Text(
+                                        reab == null ? "0" : reab.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4
+                                            .copyWith(
                                               color: Colors.white,
+                                              fontSize: 24.0,
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 16.0),
-                                            child: Text(
-                                              'Réabonnement',
-                                              style: whiteText,
-                                            ),
-                                          )
-                                        ],
+                                      ),
+                                      trailing: Icon(
+                                        FontAwesomeIcons.creditCard,
+                                        color: Colors.white,
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 10.0),
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (compTab.length <= 0 ||
-                                          compTab.length == null) {
-
-                                      } else {
-                                        _modalBottomSheetMenu3(context);
-                                      }
-                                    },
-                                    child: Container(
-                                      height: 120,
-                                      color: Colors.grey.shade500,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          ListTile(
-                                            title: Text(
-                                              comp == null
-                                                  ? "0"
-                                                  : comp.toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline4
-                                                  .copyWith(
-                                                    color: Colors.white,
-                                                    fontSize: 24.0,
-                                                  ),
-                                            ),
-                                            trailing: Icon(
-                                              FontAwesomeIcons.magic,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 16.0),
-                                            child: Text(
-                                              'Complément',
-                                              style: whiteText,
-                                            ),
-                                          )
-                                        ],
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 16.0),
+                                      child: Text(
+                                        'Réabonnement',
+                                        style: whiteText,
                                       ),
-                                    ),
-                                  ),
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                            const SizedBox(width: 10.0),
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  GestureDetector(
-                                    onTap: () {
-                                      _modalBottomSheetMenu2(context);
-                                    },
-                                    child: Container(
-                                      height: 120,
-                                      color: Colors.green,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          ListTile(
-                                            title: Text(
-                                              mig == null
-                                                  ? "0"
-                                                  : mig.toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline4
-                                                  .copyWith(
-                                                    color: Colors.white,
-                                                    fontSize: 24.0,
-                                                  ),
-                                            ),
-                                            trailing: Icon(
-                                              FontAwesomeIcons.upload,
+                            const SizedBox(height: 10.0),
+                            GestureDetector(
+                              onTap: () {
+                                if (compTab.length == null) {
+                                } else {
+                                  _modalBottomSheetMenu3(context);
+                                }
+                              },
+                              child: Container(
+                                height: 120,
+                                color: Colors.grey.shade500,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: Text(
+                                        comp == null ? "0" : comp.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4
+                                            .copyWith(
                                               color: Colors.white,
+                                              fontSize: 24.0,
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 16.0),
-                                            child: Text(
-                                              'Migrations',
-                                              style: whiteText,
-                                            ),
-                                          )
-                                        ],
+                                      ),
+                                      trailing: Icon(
+                                        FontAwesomeIcons.magic,
+                                        color: Colors.white,
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 10.0),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _modalBottomSheetMenu4(context);
-                                    },
-                                    child: Container(
-                                      height: 190,
-                                      color: Colors.blue,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          ListTile(
-                                            title: Text(
-                                              recru == null
-                                                  ? "0"
-                                                  : recru.toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline4
-                                                  .copyWith(
-                                                    fontSize: 24.0,
-                                                    color: Colors.white,
-                                                  ),
-                                            ),
-                                            trailing: Icon(
-                                              FontAwesomeIcons.hdd,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 16.0),
-                                            child: Text(
-                                              'Recrutements',
-                                              style: whiteText,
-                                            ),
-                                          ),
-                                        ],
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 16.0),
+                                      child: Text(
+                                        'Complément',
+                                        style: whiteText,
                                       ),
-                                    ),
-                                  ),
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
-                            )
+                            ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(width: 10.0),
+                      Expanded(
+                        child: Column(
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                if (migTab.length == null) {
+                                } else {
+                                  _modalBottomSheetMenu2(context);
+                                }
+                              },
+                              child: Container(
+                                height: 120,
+                                color: Colors.green,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: Text(
+                                        mig == null ? "0" : mig.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4
+                                            .copyWith(
+                                              color: Colors.white,
+                                              fontSize: 24.0,
+                                            ),
+                                      ),
+                                      trailing: Icon(
+                                        FontAwesomeIcons.upload,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 16.0),
+                                      child: Text(
+                                        'Migrations',
+                                        style: whiteText,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10.0),
+                            GestureDetector(
+                              onTap: () {
+                                if (recruTab.length == null) {
+                                } else {
+                                  _modalBottomSheetMenu4(context);
+                                }
+                              },
+                              child: Container(
+                                height: 190,
+                                color: Colors.blue,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: Text(
+                                        recru == null ? "0" : recru.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4
+                                            .copyWith(
+                                              fontSize: 24.0,
+                                              color: Colors.white,
+                                            ),
+                                      ),
+                                      trailing: Icon(
+                                        FontAwesomeIcons.hdd,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 16.0),
+                                      child: Text(
+                                        'Recrutements',
+                                        style: whiteText,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
+                ],
+              ),
+            ),
           )),
     );
   }
@@ -786,5 +782,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-
