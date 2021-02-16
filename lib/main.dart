@@ -190,6 +190,7 @@ class _MyAppState extends State<MyApp> {
             //       )
             //     :
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: <Widget>[
@@ -491,7 +492,7 @@ class _MyAppState extends State<MyApp> {
                           )
                         : Text(
                             reabTab[i]["datecreat"].toString(),
-                            style: TextStyle(color: Colors.grey),
+                            style: TextStyle(color: Colors.grey.shade200),
                           ),
                   ],
                 ),
