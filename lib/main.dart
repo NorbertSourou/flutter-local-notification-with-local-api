@@ -42,7 +42,7 @@ Future<void> main() async {
 
       // If enabled it will post a notification whenever
       // the task is running. Handy for debugging tasks
-      isInDebugMode: true);
+      isInDebugMode: false);
   // Periodic task registration
   await Workmanager.registerPeriodicTask(
     "5",
@@ -173,6 +173,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
           backgroundColor: Colors.grey.shade800,
@@ -184,18 +185,17 @@ class _MyAppState extends State<MyApp> {
           ),
           body: RefreshIndicator(
             onRefresh: search,
-            // child: is_loading
-            //     ? Center(
-            //         child: CircularProgressIndicator(),
-            //       )
-            //     :
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: <Widget>[
                   _buildheader(),
-                  const SizedBox(height: 50.0),
+                  SizedBox(
+                      height: MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? size.height * 0.088
+                          : size.width * 0.088),
                   Row(
                     children: <Widget>[
                       Expanded(
@@ -203,13 +203,17 @@ class _MyAppState extends State<MyApp> {
                           children: <Widget>[
                             GestureDetector(
                               onTap: () {
+                                print(size.width);
                                 if (reabTab.length == null) {
                                 } else {
                                   _modalBottomSheetMenu1(context);
                                 }
                               },
                               child: Container(
-                                height: 190,
+                                height: MediaQuery.of(context).orientation ==
+                                        Orientation.portrait
+                                    ? size.height * 0.334
+                                    : size.width * 0.334,
                                 color: Colors.red,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,7 +246,12 @@ class _MyAppState extends State<MyApp> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10.0),
+                            SizedBox(
+                                height: MediaQuery.of(context).orientation ==
+                                        Orientation.portrait
+                                    ? MediaQuery.of(context).size.height * 0.018
+                                    : MediaQuery.of(context).size.width *
+                                        0.018),
                             GestureDetector(
                               onTap: () {
                                 if (compTab.length == null) {
@@ -251,7 +260,10 @@ class _MyAppState extends State<MyApp> {
                                 }
                               },
                               child: Container(
-                                height: 120,
+                                height: MediaQuery.of(context).orientation ==
+                                        Orientation.portrait
+                                    ? size.height * 0.211
+                                    : size.width * 0.211,
                                 color: Colors.grey.shade500,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -287,7 +299,11 @@ class _MyAppState extends State<MyApp> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 10.0),
+                      SizedBox(
+                          width: MediaQuery.of(context).orientation ==
+                                  Orientation.portrait
+                              ? MediaQuery.of(context).size.height * 0.018
+                              : MediaQuery.of(context).size.width * 0.018),
                       Expanded(
                         child: Column(
                           children: <Widget>[
@@ -299,7 +315,10 @@ class _MyAppState extends State<MyApp> {
                                 }
                               },
                               child: Container(
-                                height: 120,
+                                height: MediaQuery.of(context).orientation ==
+                                        Orientation.portrait
+                                    ? size.height * 0.211
+                                    : size.width * 0.211,
                                 color: Colors.green,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -332,7 +351,12 @@ class _MyAppState extends State<MyApp> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10.0),
+                            SizedBox(
+                                height: MediaQuery.of(context).orientation ==
+                                        Orientation.portrait
+                                    ? MediaQuery.of(context).size.height * 0.018
+                                    : MediaQuery.of(context).size.width *
+                                        0.018),
                             GestureDetector(
                               onTap: () {
                                 if (recruTab.length == null) {
@@ -341,7 +365,10 @@ class _MyAppState extends State<MyApp> {
                                 }
                               },
                               child: Container(
-                                height: 190,
+                                height: MediaQuery.of(context).orientation ==
+                                        Orientation.portrait
+                                    ? size.height * 0.334
+                                    : size.width * 0.334,
                                 color: Colors.blue,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -388,12 +415,18 @@ class _MyAppState extends State<MyApp> {
 
   Widget _buildheader() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
           margin: EdgeInsets.all(10),
           padding: EdgeInsets.all(10),
-          width: 100,
-          height: 100,
+          width: MediaQuery.of(context).orientation == Orientation.portrait
+              ? MediaQuery.of(context).size.height * 0.1757
+              : MediaQuery.of(context).size.width * 0.1757,
+          height: MediaQuery.of(context).orientation == Orientation.portrait
+              ? MediaQuery.of(context).size.height * 0.1757
+              : MediaQuery.of(context).size.width * 0.1757,
           child: Center(
             child: Text(
               request == null ? "0" : request.toString(),
@@ -411,12 +444,14 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
-        const SizedBox(
-          width: 10,
+        SizedBox(
+          width: MediaQuery.of(context).orientation == Orientation.portrait
+              ? MediaQuery.of(context).size.height * 0.018
+              : MediaQuery.of(context).size.height * 0.018,
         ),
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "Nombre de requetes",
@@ -449,7 +484,9 @@ class _MyAppState extends State<MyApp> {
                     Text("Montant"),
                     reabTab[i]["montant"] == null
                         ? Text("Null")
-                        : Text(reabTab[i]["montant"].toString())
+                        : Text(
+                            reabTab[i]["montant"].toString(),
+                          )
                   ],
                 ),
               ),
@@ -488,7 +525,7 @@ class _MyAppState extends State<MyApp> {
                     reabTab[i]["datecreat"] == null
                         ? Text(
                             "Null",
-                            style: TextStyle(color: Colors.grey),
+                            style: TextStyle(color: Colors.grey.shade200),
                           )
                         : Text(
                             reabTab[i]["datecreat"].toString(),
@@ -576,10 +613,11 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       migTab[i]["datecreat"] == null
-                          ? Text("Null")
+                          ? Text("Null",
+                              style: TextStyle(color: Colors.grey.shade200))
                           : Text(
                               migTab[i]["datecreat"].toString(),
-                              style: TextStyle(color: Colors.grey),
+                              style: TextStyle(color: Colors.grey.shade200),
                             ),
                     ],
                   ),
@@ -664,11 +702,11 @@ class _MyAppState extends State<MyApp> {
                       compTab[i]["datecreat"] == null
                           ? Text(
                               "Null",
-                              style: TextStyle(color: Colors.grey),
+                              style: TextStyle(color: Colors.grey.shade200),
                             )
                           : Text(
                               compTab[i]["datecreat"].toString(),
-                              style: TextStyle(color: Colors.grey),
+                              style: TextStyle(color: Colors.grey.shade200),
                             ),
                     ],
                   ),
@@ -753,11 +791,11 @@ class _MyAppState extends State<MyApp> {
                       recruTab[i]["datecreat"] == null
                           ? Text(
                               "Null",
-                              style: TextStyle(color: Colors.grey),
+                              style: TextStyle(color: Colors.grey.shade200),
                             )
                           : Text(
                               recruTab[i]["datecreat"].toString(),
-                              style: TextStyle(color: Colors.grey),
+                              style: TextStyle(color: Colors.grey.shade200),
                             ),
                     ],
                   ),
