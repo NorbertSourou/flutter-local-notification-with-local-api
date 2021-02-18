@@ -137,7 +137,6 @@ class _MyAppState extends State<MyApp> {
   var recruTab;
 
   Future<void> search() async {
-    //   is_loading = true;
     http.Response response =
         await http.get('http://rycnegoces.com/api/index.php');
     var jsonResponse;
@@ -158,15 +157,8 @@ class _MyAppState extends State<MyApp> {
           request = jsonResponse["nombre"];
           //  is_loading = false;
         });
-      } else {
-        setState(() {
-          //   is_loading = false;
-        });
-      }
+      } else {}
     } else {
-      setState(() {
-        //  is_loading = false;
-      });
       print(response.body);
     }
   }
